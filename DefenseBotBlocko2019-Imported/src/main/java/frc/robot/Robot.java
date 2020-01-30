@@ -86,10 +86,7 @@ public class Robot extends IterativeRobot {
   private SlewRateLimiter slewRateLimiter = new SlewRateLimiter(1.5);
   private SlewRateLimiter turnRateLimiter = new SlewRateLimiter(1.5);
 
-<<<<<<< Updated upstream
-  private PID pid = new PID(0.004, 0.0, 0.00, -1.0, 1.0);
-=======
->>>>>>> Stashed changes
+  //private PID pid = new PID(0.004, 0.0, 0.00, -1.0, 1.0);
   
   //Intake.IntakeState shahe = intake.new IntakeState();
   public enum AutoMode{
@@ -355,27 +352,6 @@ public class Robot extends IterativeRobot {
   }
 
 @Override
-<<<<<<< Updated upstream
-public void testInit() {
-  /*try {
-    //table.getEntry("ledMode").setNumber(3);
-    drive.zeroEncoders();
-    CrashTracker.logTeleopInit();
-    internalLooper.start();
-    drive.setOpenLoop(DriveSignal.NEUTRAL);
-    drive.setBrakeMode(false);
-    slewRateLimiter.reset();
-    turnRateLimiter.reset();
-  } catch(Throwable t) {
-    CrashTracker.logThrowableCrash(t);
-    throw t;
-  }*/
-  
-  // internalLooper.start();
-  // allPeriodic();
-  // zeroSensors();
-  // pid.reset();
-=======
 public void testInit() {  
   internalLooper.start();
   allPeriodic();
@@ -383,7 +359,6 @@ public void testInit() {
   pid.reset();
 
   table.getEntry("ledMode").setNumber(3);
->>>>>>> Stashed changes
 
   // Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
   // AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
@@ -402,12 +377,6 @@ public void testInit() {
 public void testPeriodic() {
   //drive.startPathFollowing();
   //colorSensor.getColor();
-<<<<<<< Updated upstream
-  System.out.println(table.getEntry("tx").getDouble(0.0));
-  //System.out.println(drive.getHeading());
-  // double val = pid.calculate(Constants.LOOPER_DT, table.getEntry("tx").getDouble(0.));
-  // drive.ghettoSetMotors(val, val);
-=======
   //System.out.println(table.getEntry("tx").getDouble(0.0));
   //System.out.println(drive.getHeading());
   double isDetected = table.getEntry("tv").getDouble(0);
@@ -422,6 +391,5 @@ public void testPeriodic() {
     drive.setOpenLoop(DriveSignal.NEUTRAL);
   }
   
->>>>>>> Stashed changes
   }
 }
