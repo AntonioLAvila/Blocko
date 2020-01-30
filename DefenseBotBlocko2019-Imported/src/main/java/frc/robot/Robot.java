@@ -241,14 +241,14 @@ public class Robot extends IterativeRobot {
   public void disabledPeriodic() {
     allPeriodic();
     //drive.setOpenLoop(DriveSignal.NEUTRAL);
-    //System.out.println(/*"skew:"+table.getEntry("ts").getDouble(100)+*/" tx:"+table.getEntry("tx").getDouble(100));//grab network table val for skew
+    System.out.println(" tx:"+table.getEntry("tx").getDouble(100));//grab network table val for skew
     if(base.getAButtonPressed()){
       autoMode = AutoMode.FOLLOW_PATH;
     }
     if(base.getBButtonPressed()){
       autoMode = AutoMode.TURN_IN_PLACE;
     }
-    System.out.println(autoMode);
+    //System.out.println(autoMode);
     
   }
 
@@ -367,14 +367,16 @@ public void testInit() {
     throw t;
   }*/
   
-  internalLooper.start();
-  allPeriodic();
-  zeroSensors();
-  //pid.reset();
-  Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
-  AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
-  drive.setTrajectory(traj, false);
+  // internalLooper.start();
+  // allPeriodic();
+  // zeroSensors();
+  // pid.reset();
+
+  // Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
+  // AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
+  // drive.setTrajectory(traj, false);
 }
+  //NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   /**
    * This function is called periodically during test mode.
    */
@@ -382,11 +384,11 @@ public void testInit() {
   // public ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 @Override
 public void testPeriodic() {
-  drive.startPathFollowing();
+  //drive.startPathFollowing();
   //colorSensor.getColor();
-
-  // System.out.println(drive.getHeading());
-  // double val = pid.calculate(180., drive.getHeading(), Constants.LOOPER_DT);
+  System.out.println(table.getEntry("tx").getDouble(0.0));
+  //System.out.println(drive.getHeading());
+  // double val = pid.calculate(Constants.LOOPER_DT, table.getEntry("tx").getDouble(0.));
   // drive.ghettoSetMotors(val, val);
   }
 }

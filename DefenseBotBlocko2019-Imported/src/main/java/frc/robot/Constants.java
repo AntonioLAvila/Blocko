@@ -65,7 +65,7 @@ public class Constants {
     public static final int RAILGUN_ENC1 = 0;
     public static final int RAILGUN_ENC2 = 0;
 
-    public static final List<Waypoint> path = Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(1000.0, 0.0, 0.));
+    public static final List<Waypoint> path = Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(5.0, 7.0, 0.), new Waypoint(10., 7., Math.PI));
     //public static final List<Waypoint> complicatedPath = Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 0.0, 0.0), new Waypoint(0.0, 10.0, 0.0));
     public static final List<Waypoint> turnInPlace = Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(0.0, 0.0, 90.0));
 }

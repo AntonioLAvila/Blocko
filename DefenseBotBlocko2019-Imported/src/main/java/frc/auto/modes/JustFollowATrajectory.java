@@ -12,7 +12,7 @@ public class JustFollowATrajectory extends AutoModeBase {
 
     @Override
     protected void routine() throws AutoModeEndedException {
-        runAction(new FollowTrajectoryAction(Constants.path, false));
+        runAction(new FollowTrajectoryAction(Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 10.0, 0.), new Waypoint(20., 10., 0.)), false));
     }
     //from waypoint to waypoint thing but not pass through the points given
     
