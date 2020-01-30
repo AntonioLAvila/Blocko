@@ -89,7 +89,7 @@ public class Robot extends IterativeRobot {
   private SlewRateLimiter slewRateLimiter = new SlewRateLimiter(1.5);
   private SlewRateLimiter turnRateLimiter = new SlewRateLimiter(1.5);
 
-  private PID pid = new PID(0.004, 0.0, 0.00, -1.0, 1.0);
+  private PID pid = new PID(0.02, 0.0, 0.00, -1.0, 1.0);
   
   //Intake.IntakeState shahe = intake.new IntakeState();
   public enum AutoMode{
@@ -373,6 +373,7 @@ public void testInit() {
   internalLooper.start();
   allPeriodic();
   zeroSensors();
+  table.getEntry("ledMode").setNumber(3);
   //pid.reset();
   Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
   AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
@@ -395,7 +396,7 @@ public void testPeriodic() {
   
   double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
 
-  signal = new DriveSignal(output, output);
+  signal = new DriveSignal(-output, -output);
   drive.setOpenLoop(signal);
 
 
