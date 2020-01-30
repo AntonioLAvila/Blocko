@@ -43,7 +43,6 @@ public class LimelightProcessor extends Subsystem {
         ts = table.getEntry("ts");
         tv = table.getEntry("tv");
         
-
         detectionMode = DetectionMode.HATCH;
     }
 
@@ -105,7 +104,33 @@ public class LimelightProcessor extends Subsystem {
     //     }
     // }
 
+    public void updateVariables() {
+        // t_v = tv.getDouble(0.0);
+        // t_x = tx.getDouble(0.0);
+        // t_y = ty.getDouble(0.0);
+        // t_s = ts.getDouble(0.0);
+        t_v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0);
+        t_x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
+        t_y = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
+        t_s = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0.0);
+    }
     
+    public void printVariables() {
+        System.out.println("Limelight T_X: " + t_x);
+        System.out.println("Limelight T_Y: " + t_y);
+        System.out.println("Limelight T_S:" + t_s);
+        System.out.println("Limelight T_V:" + t_v);
+        System.out.println("Limelight Camtran:" + camtran);
+        System.out.println("Limelight LED Mode: " +ledMode);
+    }
+
+    public void correctTS() {
+        if(t_s <= -45) {
+            t_s = (t_s * -1) - 90;
+        } else {
+            t_s = -1 * t_s;
+        }
+    }
 
     private void handleProcessing() {
         t_v = tv.getDouble(0.0);
@@ -173,7 +198,7 @@ public class LimelightProcessor extends Subsystem {
 
     @Override
     public void outputToSmartDashboard() {
-        /*SmartDashboard.putNumber("a1", getCalibrationAngle());
+        //SmartDashboard.putNumber("a1", getCalibrationAngle());
         SmartDashboard.putNumber("tx", t_x);
         SmartDashboard.putNumber("ty", t_y);
         SmartDashboard.putNumber("tv", t_v);
@@ -185,8 +210,7 @@ public class LimelightProcessor extends Subsystem {
         SmartDashboard.putNumber("z", z);
         SmartDashboard.putNumber("yaw", yaw);
         SmartDashboard.putNumber("pitch", pitch);
-        SmartDashboard.putNumber("roll", roll);*/
-        
+        SmartDashboard.putNumber("roll", roll);     
     }
 
     @Override
@@ -202,5 +226,50 @@ public class LimelightProcessor extends Subsystem {
     @Override
     public void registerEnabledLoops(Looper enabledLooper) {
         enabledLooper.register(loop);
+    }
+
+
+    public synchronized void setX(double x) {
+        this.x = x;
+    }
+
+    public synchronized void setY(double y) {
+        this.y = y;
+    }
+
+    public synchronized void setZ(double z) {
+        this.z = z;
+    }
+
+    public synchronized void setYaw(double yaw) {
+        this.yaw = yaw;
+    }
+
+    public synchronized void setPitch(double pitch) {
+        this.pitch = pitch;
+    }
+
+    public synchronized void setRoll(double roll) {
+        this.roll = roll;
+    }
+    
+    public synchronized void setTX(double t_x) {
+        this.t_x = t_x;
+    }
+
+    public synchronized void setTY(double t_y) {
+        this.t_y = t_y;
+    }
+
+    public synchronized void setTS(double t_s) {
+        this.t_s = t_s;
+    }
+
+    public synchronized void setTV(double t_v) {
+        this.t_v = t_v;
+    }
+
+    public synchronized void setDist(double dist) {
+        this.dist = dist;
     }
 }

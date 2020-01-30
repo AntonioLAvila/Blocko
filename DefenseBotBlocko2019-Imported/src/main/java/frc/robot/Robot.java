@@ -39,6 +39,7 @@ import frc.auto.AutoModeExecuter;
 import frc.auto.modes.DoNothingMode;
 import frc.auto.modes.JustFollowATrajectory;
 import frc.auto.modes.TurnInPlace;
+import frc.util.PID;
 //import edu.wpi.first.wpilibj.Joystick;
 import frc.loops.*;
 
@@ -63,13 +64,15 @@ public class Robot extends IterativeRobot {
   private AutoModeExecuter autoModeExecuter = new AutoModeExecuter();
 
   //int x = 2147483647;
-  //private LimelightProcessor processor = LimelightProcessor.getInstance();
+  private LimelightProcessor limelightProcessor = LimelightProcessor.getInstance();
   private Drive drive = Drive.getInstance();
   private Intake intake = Intake.getInstance();
+  
+  private PID limelightPID = new PID(0.009, 0.0, 0.0, 0., 1.);
 
   boolean autoIntake = false;
 
-  private final SubsystemManager subsystemManager = new SubsystemManager(Arrays.asList(Drive.getInstance() /*LimelightProcessor.getInstance() /*Intake.getInstance()*/));
+  private final SubsystemManager subsystemManager = new SubsystemManager(Arrays.asList(Drive.getInstance(), LimelightProcessor.getInstance() /*Intake.getInstance()*/));
 
   Looper internalLooper = new Looper();
   
@@ -382,7 +385,29 @@ public void testInit() {
   // public ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 @Override
 public void testPeriodic() {
-  drive.startPathFollowing();
+  //drive.startPathFollowing();
+  
+  limelightProcessor.updateVariables();
+
+  DriveSignal signal;
+  //drive.setHighGear(true);//change later
+
+  
+  double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
+
+  signal = new DriveSignal(output, output);
+  drive.setOpenLoop(signal);
+
+
+
+
+
+
+
+  //limelightProcessor.correctTS();
+  //limelightProcessor.printVariables();
+  allPeriodic();
+  
   //colorSensor.getColor();
 
   // System.out.println(drive.getHeading());
