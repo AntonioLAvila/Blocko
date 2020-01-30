@@ -392,8 +392,12 @@ public void testPeriodic() {
   DriveSignal signal;
   //drive.setHighGear(true);//change later
 
-  
-  double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
+  if (limelightProcessor.getTV() == 0) {//if no target found, do a "seek" and turn around until you find the target
+    signal = new DriveSignal(-0.5, 0.5);
+  } else {
+    double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
+    signal = new DriveSignal(output, output);
+  }
 
   drive.setOpenLoop(signal);
   
