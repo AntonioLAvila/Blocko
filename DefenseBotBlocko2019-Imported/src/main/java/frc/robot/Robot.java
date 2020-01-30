@@ -387,23 +387,16 @@ public void testInit() {
 public void testPeriodic() {
   //drive.startPathFollowing();
   
+  
   limelightProcessor.updateVariables();
-
   DriveSignal signal;
   //drive.setHighGear(true);//change later
 
   
   double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
 
-  signal = new DriveSignal(output, output);
   drive.setOpenLoop(signal);
-
-
-
-
-
-
-
+  
   //limelightProcessor.correctTS();
   //limelightProcessor.printVariables();
   allPeriodic();
