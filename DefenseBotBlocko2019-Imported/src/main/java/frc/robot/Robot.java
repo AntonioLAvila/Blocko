@@ -86,7 +86,10 @@ public class Robot extends IterativeRobot {
   private SlewRateLimiter slewRateLimiter = new SlewRateLimiter(1.5);
   private SlewRateLimiter turnRateLimiter = new SlewRateLimiter(1.5);
 
+<<<<<<< Updated upstream
   private PID pid = new PID(0.004, 0.0, 0.00, -1.0, 1.0);
+=======
+>>>>>>> Stashed changes
   
   //Intake.IntakeState shahe = intake.new IntakeState();
   public enum AutoMode{
@@ -352,6 +355,7 @@ public class Robot extends IterativeRobot {
   }
 
 @Override
+<<<<<<< Updated upstream
 public void testInit() {
   /*try {
     //table.getEntry("ledMode").setNumber(3);
@@ -371,6 +375,15 @@ public void testInit() {
   // allPeriodic();
   // zeroSensors();
   // pid.reset();
+=======
+public void testInit() {  
+  internalLooper.start();
+  allPeriodic();
+  zeroSensors();
+  pid.reset();
+
+  table.getEntry("ledMode").setNumber(3);
+>>>>>>> Stashed changes
 
   // Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
   // AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
@@ -382,13 +395,33 @@ public void testInit() {
    */
   // private final I2C.Port i2cPort = I2C.Port.kOnboard;
   // public ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
+
+  private PID pid = new PID(0.02, 0.0, 0.00, -1.0, 1.0);
+
 @Override
 public void testPeriodic() {
   //drive.startPathFollowing();
   //colorSensor.getColor();
+<<<<<<< Updated upstream
   System.out.println(table.getEntry("tx").getDouble(0.0));
   //System.out.println(drive.getHeading());
   // double val = pid.calculate(Constants.LOOPER_DT, table.getEntry("tx").getDouble(0.));
   // drive.ghettoSetMotors(val, val);
+=======
+  //System.out.println(table.getEntry("tx").getDouble(0.0));
+  //System.out.println(drive.getHeading());
+  double isDetected = table.getEntry("tv").getDouble(0);
+
+  if(base.getAButton() && isDetected == 1){
+    double val = pid.calculate(table.getEntry("tx").getDouble(0.0), 0.,Constants.LOOPER_DT);
+    DriveSignal signal = new DriveSignal(-val, -val);
+    drive.setOpenLoop(signal);
+  }else if(base.getAButton() && isDetected == 0){
+    drive.setOpenLoop(new DriveSignal(.4, .4));
+  }else{
+    drive.setOpenLoop(DriveSignal.NEUTRAL);
+  }
+  
+>>>>>>> Stashed changes
   }
 }

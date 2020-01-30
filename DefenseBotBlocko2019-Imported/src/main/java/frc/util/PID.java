@@ -31,7 +31,7 @@ public class PID{
     }
 
     /**
-	 * Basic PID calculator made by "yours truely" -OJ Simpson
+	 * Basic PID calculator made by me
      * @param setPoint distance in whatever units your encoder is measuring if you haven't yet, convert the ticks.
 	 * @param measurement Current sensor reading
 	 * @param dt Time of loop
