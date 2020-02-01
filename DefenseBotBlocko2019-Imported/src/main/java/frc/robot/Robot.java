@@ -89,7 +89,7 @@ public class Robot extends IterativeRobot {
   private SlewRateLimiter slewRateLimiter = new SlewRateLimiter(1.5);
   private SlewRateLimiter turnRateLimiter = new SlewRateLimiter(1.5);
 
-  private PID pid = new PID(0.02, 0.0, 0.00, -1.0, 1.0);
+  //private PID pid = new PID(0.02, 0.0, 0.00, -1.0, 1.0);
   
   //Intake.IntakeState shahe = intake.new IntakeState();
   public enum AutoMode{
@@ -244,14 +244,14 @@ public class Robot extends IterativeRobot {
   public void disabledPeriodic() {
     allPeriodic();
     //drive.setOpenLoop(DriveSignal.NEUTRAL);
-    //System.out.println(/*"skew:"+table.getEntry("ts").getDouble(100)+*/" tx:"+table.getEntry("tx").getDouble(100));//grab network table val for skew
+    System.out.println(" tx:"+table.getEntry("tx").getDouble(100));//grab network table val for skew
     if(base.getAButtonPressed()){
       autoMode = AutoMode.FOLLOW_PATH;
     }
     if(base.getBButtonPressed()){
       autoMode = AutoMode.TURN_IN_PLACE;
     }
-    System.out.println(autoMode);
+    //System.out.println(autoMode);
     
   }
 
@@ -355,35 +355,25 @@ public class Robot extends IterativeRobot {
   }
 
 @Override
-public void testInit() {
-  /*try {
-    //table.getEntry("ledMode").setNumber(3);
-    drive.zeroEncoders();
-    CrashTracker.logTeleopInit();
-    internalLooper.start();
-    drive.setOpenLoop(DriveSignal.NEUTRAL);
-    drive.setBrakeMode(false);
-    slewRateLimiter.reset();
-    turnRateLimiter.reset();
-  } catch(Throwable t) {
-    CrashTracker.logThrowableCrash(t);
-    throw t;
-  }*/
-  
+public void testInit() {  
   internalLooper.start();
   allPeriodic();
   zeroSensors();
   table.getEntry("ledMode").setNumber(3);
   //pid.reset();
-  Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
-  AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
-  drive.setTrajectory(traj, false);
+  // Trajectory trajectory = TrajectoryGenerator.generateQuinticHermiteSpline(drive.getConfig(), Arrays.asList(new Waypoint(0.0, 0.0, 0.0), new Waypoint(10.0, 5.0, 0.0)));
+  // AutoTrajectory traj = TrajectoryGenerator.makeLeftRightTrajectories(trajectory, Constants.WHEEL_BASE);
+  // drive.setTrajectory(traj, false);
 }
+  //NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   /**
    * This function is called periodically during test mode.
    */
   // private final I2C.Port i2cPort = I2C.Port.kOnboard;
   // public ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
+
+  private PID pid = new PID(0.02, 0.0, 0.00, -1.0, 1.0);
+
 @Override
 public void testPeriodic() {
   //drive.startPathFollowing();
@@ -393,11 +383,13 @@ public void testPeriodic() {
   DriveSignal signal;
   //drive.setHighGear(true);//change later
 
-  if (limelightProcessor.getTV() == 0) {//if no target found, do a "seek" and turn around until you find the target
+  if (base.getAButton() && limelightProcessor.getTV() == 0) {//if no target found, do a "seek" and turn around until you find the target
     signal = new DriveSignal(-0.5, 0.5);
-  } else {
+  } else if (base.getAButton() && limelightProcessor.getTV() == 1) {
     double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
     signal = new DriveSignal(-output, -output);
+  } else {
+    signal = DriveSignal.NEUTRAL;
   }
 
   drive.setOpenLoop(signal);
@@ -407,9 +399,8 @@ public void testPeriodic() {
   allPeriodic();
   
   //colorSensor.getColor();
-
-  // System.out.println(drive.getHeading());
-  // double val = pid.calculate(180., drive.getHeading(), Constants.LOOPER_DT);
-  // drive.ghettoSetMotors(val, val);
+  //System.out.println(table.getEntry("tx").getDouble(0.0));
+  //System.out.println(drive.getHeading());
+  
   }
 }
