@@ -383,16 +383,18 @@ public void testPeriodic() {
   DriveSignal signal;
   //drive.setHighGear(true);//change later
 
-  if (base.getAButton() && limelightProcessor.getTV() == 0) {//if no target found, do a "seek" and turn around until you find the target
-    signal = new DriveSignal(-0.5, 0.5);
-  } else if (base.getAButton() && limelightProcessor.getTV() == 1) {
-    double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
-    signal = new DriveSignal(-output, -output);
-  } else {
-    signal = DriveSignal.NEUTRAL;
+  if (base.getAButton()) { //"target mode"
+    if (limelightProcessor.getTV() == 0) {//if no target found, do a "seek" and turn around until you find the target
+      signal = new DriveSignal(-0.5, 0.5);
+    } else if (limelightProcessor.getTV() == 1) {
+      double output = limelightPID.calculate(limelightProcessor.getTX(), 0, Constants.LOOPER_DT);
+      signal = new DriveSignal(-output, -output);
+    } else {
+      signal = DriveSignal.NEUTRAL;
+    }
+    drive.setOpenLoop(signal);
   }
-
-  drive.setOpenLoop(signal);
+  
   
   //limelightProcessor.correctTS();
   //limelightProcessor.printVariables();
