@@ -86,7 +86,6 @@ public class Robot extends IterativeRobot {
   private SlewRateLimiter slewRateLimiter = new SlewRateLimiter(1.5);
   private SlewRateLimiter turnRateLimiter = new SlewRateLimiter(1.5);
 
-  //private PID pid = new PID(0.004, 0.0, 0.00, -1.0, 1.0);
   
   //Intake.IntakeState shahe = intake.new IntakeState();
   public enum AutoMode{
@@ -386,7 +385,7 @@ public void testPeriodic() {
     DriveSignal signal = new DriveSignal(-val, -val);
     drive.setOpenLoop(signal);
   }else if(base.getAButton() && isDetected == 0){
-    drive.setOpenLoop(new DriveSignal(.4, .4));
+    drive.setOpenLoop(new DriveSignal(0, 0));
   }else{
     drive.setOpenLoop(DriveSignal.NEUTRAL);
   }

@@ -35,35 +35,6 @@ public class PID{
      * @param setPoint distance in whatever units your encoder is measuring if you haven't yet, convert the ticks.
 	 * @param measurement Current sensor reading
 	 * @param dt Time of loop
-     * @param errorFunc give any error you chose
-	 * @return calculated voltage to motors
-	 */
-    public double calculate(double dt, double errorFunc){
-        error = errorFunc;
-
-        sumError += ((error + prevError) / 2) * dt;
-
-        double derivError = (error - prevError) / dt;
-
-        output = kP * error + kI * sumError + kD * derivError;
-
-        //housekeeping
-        prevError = error;
-        if(output > maxOutput) {
-			output = maxOutput;
-		} else if(output < minOutput) {
-			output = minOutput;
-        }
-        
-        //System.out.println(output);
-        return output;
-    }
-
-    /**
-	 * Basic PID calculator made by "yours truely" -OJ Simpson
-     * @param setPoint distance in whatever units your encoder is measuring if you haven't yet, convert the ticks.
-	 * @param measurement Current sensor reading
-	 * @param dt Time of loop
 	 * @return calculated voltage to motors
 	 */
     public double calculate(double setPoint, double measurement, double dt){
